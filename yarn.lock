@@ -33193,7 +33193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:~17.0.15":
+"react-i18next@npm:~17.0.14, react-i18next@npm:~17.0.15":
   version: 17.0.15
   resolution: "react-i18next@npm:17.0.15"
   dependencies:

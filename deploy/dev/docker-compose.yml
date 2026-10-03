@@ -1,0 +1,27 @@
+# Local development: MongoDB 8 as a single-node replica set.
+# App runs on the host via `yarn dev:tt` (see deploy/dev/.env.example).
+services:
+  mongo:
+    image: mongodb/mongodb-community-server:8.0-ubi8
+    container_name: technotribes-mongo-dev
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-dev:/data/db
+    environment:
+      MONGODB_REPLICA_SET_NAME: rs0
+    entrypoint: |
+      bash -c "
+        mongod --replSet rs0 --bind_ip_all &
+        until mongosh --quiet --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do sleep 1; done
+        mongosh --quiet --eval 'try { rs.status() } catch (e) { rs.initiate({ _id: \"rs0\", members: [{ _id: 0, host: \"localhost:27017\" }] }) }'
+        wait"
+    healthcheck:
+      test: ['CMD-SHELL', "mongosh --quiet --eval 'db.hello().isWritablePrimary' | grep -q true"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mongo-dev:
