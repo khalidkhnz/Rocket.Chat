@@ -20,7 +20,7 @@ Requirements on the host: Docker 24+ with compose v2, ports 80/443 open, a DNS r
 ```bash
 git clone -b technotribes https://github.com/khalidkhnz/Rocket.Chat.git && cd Rocket.Chat/deploy/prod
 cp .env.example .env            # set DOMAIN, ROOT_URL, ADMIN_PASS
-./build.sh                      # builds linux/amd64 image from source (30-60 min, needs ~10 GB RAM for Docker)
+./build.sh                      # bundles with local Node 24 + Meteor 3.5.2, packages as linux/amd64 image (~20-30 min)
 docker compose up -d
 docker compose logs -f rocketchat   # wait for "SERVER RUNNING"
 ```
@@ -28,8 +28,14 @@ docker compose logs -f rocketchat   # wait for "SERVER RUNNING"
 Open `https://$DOMAIN`, log in with `ADMIN_USERNAME` / `ADMIN_PASS`. The setup wizard and
 Rocket.Chat cloud registration are skipped by the `OVERWRITE_SETTING_*` vars.
 
-Building elsewhere: `PUSH=true IMAGE=ghcr.io/khalidkhnz/technotribes-chat ./build.sh` on any
-amd64 Linux box with Docker, then on the server set `TAG=<sha>` in `.env` and `docker compose pull && docker compose up -d`.
+`build.sh` has two modes. `MODE=host` (default) needs Node 24, Yarn 4 and Meteor 3.5.2 on the
+machine running it (any OS/arch; it cross-bundles for linux x64) and only uses Docker for the final
+packaging step. `MODE=docker` builds everything inside Docker from `deploy/prod/Dockerfile` and
+needs an amd64 Docker host with 10 GB+ RAM (CI runners, Linux servers) — it does not fit Docker
+Desktop on a 16 GB Mac.
+
+Building elsewhere: `PUSH=true IMAGE=ghcr.io/khalidkhnz/technotribes-chat ./build.sh`, then on the
+server set `TAG=<sha>` in `.env` and `docker compose pull && docker compose up -d`.
 
 ## Upgrade
 
