@@ -130,7 +130,7 @@ Meteor.startup(async () => {
 		if (!(await Users.findOneById('rocket.cat', { projection: { _id: 1 } }))) {
 			await Users.create({
 				_id: 'rocket.cat',
-				name: 'Rocket.Cat',
+				name: 'TechnoBot',
 				username: 'rocket.cat',
 				status: UserStatus.ONLINE,
 				statusDefault: UserStatus.ONLINE,

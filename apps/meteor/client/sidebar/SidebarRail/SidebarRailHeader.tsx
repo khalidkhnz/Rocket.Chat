@@ -9,7 +9,7 @@ const SidebarRailHeader = () => {
 	return (
 		<NavBarComponent aria-label={t('Sidebar_rail_header')} style={{ paddingInline: '0.5rem' }}>
 			<NavBarSection>
-				<Box is='img' src='/images/logo/icon.svg' alt='Rocket.Chat' size='x28' />
+				<Box is='img' src='/images/logo/icon.svg' alt='TechnoTribes' size='x28' />
 			</NavBarSection>
 			<NavBarNavigation />
 			<NavBarSection />

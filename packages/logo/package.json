@@ -1,7 +1,7 @@
 {
 	"name": "@rocket.chat/logo",
 	"version": "0.33.2",
-	"description": "Rocket.Chat logo package",
+	"description": "TechnoTribes logo package (whitelabel of @rocket.chat/logo)",
 	"keywords": [
 		"rocketchat",
 		"rocketchat logo"

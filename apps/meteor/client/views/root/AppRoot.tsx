@@ -28,8 +28,7 @@ const AppRoot = () => (
 				<meta property='og:image' content='assets/favicon_512.png' />
 				<meta property='twitter:image' content='assets/favicon_512.png' />
 				<link rel='manifest' href='images/manifest.json' />
-				<link rel='chrome-webstore-item' href='https://chrome.google.com/webstore/detail/nocfbnnmjnndkbipkabodnheejiegccf' />
-				<link rel='mask-icon' href='assets/safari_pinned.svg' color='#04436a' />
+				<link rel='mask-icon' href='assets/safari_pinned.svg' color='#dd5b10' />
 				<link rel='apple-touch-icon' sizes='180x180' href='assets/touchicon_180.png' />
 				<link rel='apple-touch-icon-precomposed' href='assets/touchicon_180_pre.png' />
 			</>,

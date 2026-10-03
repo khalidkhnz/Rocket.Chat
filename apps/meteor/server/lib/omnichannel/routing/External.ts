@@ -43,7 +43,7 @@ class ExternalQueue implements IRoutingMethod {
 		try {
 			const request = await fetch(`${settings.get('Livechat_External_Queue_URL')}`, {
 				headers: {
-					'User-Agent': 'RocketChat Server',
+					'User-Agent': 'TechnoTribes-Chat Server',
 					'Accept': 'application/json',
 					'X-RocketChat-Secret-Token': settings.get('Livechat_External_Queue_Token'),
 				},

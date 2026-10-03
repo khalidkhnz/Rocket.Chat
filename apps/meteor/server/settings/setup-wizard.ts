@@ -28,7 +28,7 @@ export const createSetupWSettings = () =>
 					order: 0,
 				},
 			});
-			await this.add('Organization_Name', '', {
+			await this.add('Organization_Name', 'TechnoTribes', {
 				type: 'string',
 				wizard: {
 					step: 2,

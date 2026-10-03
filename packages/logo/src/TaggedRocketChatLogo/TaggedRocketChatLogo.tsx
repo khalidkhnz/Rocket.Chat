@@ -10,7 +10,7 @@ type TaggedRocketChatLogoProps = {
 	color?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-const TaggedRocketChatLogo = ({ tagTitle, tagBackground = colors.r400, color = colors.white, ...props }: TaggedRocketChatLogoProps) => (
+const TaggedRocketChatLogo = ({ tagTitle, tagBackground = '#dd5b10', color = colors.white, ...props }: TaggedRocketChatLogoProps) => (
 	<LogoContainer {...props}>
 		<RocketChatLogo />
 		{tagTitle && (

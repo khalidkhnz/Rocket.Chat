@@ -27,7 +27,7 @@ const DefaultHomePage = () => {
 			<HomePageHeader />
 			<PageScrollableContent>
 				<Box is='h2' fontScale='h1' marginBlock={20}>
-					{t('Welcome_to_workspace', { Site_Name: workspaceName || 'Rocket.Chat' })}
+					{t('Welcome_to_workspace', { Site_Name: workspaceName || 'TechnoTribes' })}
 				</Box>
 				<Box is='h3' fontScale='h3' marginBlock={16}>
 					{t('Some_ideas_to_get_you_started')}
