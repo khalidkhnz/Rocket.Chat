@@ -1,7 +1,7 @@
 {
-	"name": "Rocket.Chat",
-	"short_name": "Rocket.Chat",
-	"background_color": "#fff",
+	"name": "TechnoTribes",
+	"short_name": "TechnoTribes",
+	"background_color": "#0c0c0c",
 	"icons": [
 		{
 			"src": "/assets/favicon_192.png",
