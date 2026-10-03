@@ -1,0 +1,6 @@
+.git
+**/node_modules
+**/dist
+apps/meteor/.meteor/local
+deploy/prod/.env
+deploy/dev/.env

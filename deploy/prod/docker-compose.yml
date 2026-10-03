@@ -1,0 +1,67 @@
+# Production: app + MongoDB 8 replica set + Caddy (automatic HTTPS).
+# 1. cp .env.example .env && edit   2. ./build.sh (or pull)   3. docker compose up -d
+services:
+  rocketchat:
+    image: ${IMAGE:-ghcr.io/khalidkhnz/technotribes-chat}:${TAG:-latest}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MONGO_URL: mongodb://mongo:27017/technotribes?replicaSet=rs0
+      MONGO_OPLOG_URL: mongodb://mongo:27017/local?replicaSet=rs0
+      PORT: '3000'
+      DEPLOY_METHOD: docker
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      mongo:
+        condition: service_healthy
+    expose:
+      - '3000'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api/info >/dev/null || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  mongo:
+    image: mongodb/mongodb-community-server:8.0-ubi8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGODB_REPLICA_SET_NAME: rs0
+    entrypoint: |
+      bash -c "
+        mongod --replSet rs0 --bind_ip_all --wiredTigerCacheSizeGB ${MONGO_CACHE_GB:-1} &
+        until mongosh --quiet --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do sleep 1; done
+        mongosh --quiet --eval 'try { rs.status() } catch (e) { rs.initiate({ _id: \"rs0\", members: [{ _id: 0, host: \"mongo:27017\" }] }) }'
+        wait"
+    healthcheck:
+      test: ['CMD-SHELL', "mongosh --quiet --eval 'db.hello().isWritablePrimary' | grep -q true"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - rocketchat
+
+volumes:
+  uploads:
+  mongo-data:
+  caddy-data:
+  caddy-config:
